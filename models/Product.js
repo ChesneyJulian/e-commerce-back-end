@@ -23,13 +23,13 @@ Product.init(
     price: {
       type: DataTypes.DECIMAL,
       validate: {
-        is: /^\d+.?\d{2}/
+        is: /^\d+?.?[/d0]+?/
       }
     },
     stock: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      default: 10,
+      defaultValue: 10,
       validate: {
         isNumeric: true
       }
