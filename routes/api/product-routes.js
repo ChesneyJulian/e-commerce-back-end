@@ -61,15 +61,18 @@ router.put('/:id', async (req, res) => {
   try {
     // find, update, and product data
     const product = await Product.findByPk(req.params.id);
+    if (!product) {
+      return res.status(404).json('Product not found');
+    }
     await product.update(req.body);
     await product.save();
     // set tags if passed in req.body
     if (req.body.tagIds) {
       await product.setTags(req.body.tagIds);
     };
-    res.json(await product.getTags());
+   return res.status(200).json(await product.getTags());
   } catch (err) {
-    res.status(500).json(err);
+    return res.status(500).json(err);
   };
 });
 
