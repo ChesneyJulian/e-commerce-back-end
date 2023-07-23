@@ -52,7 +52,10 @@ router.put('/:id', async (req, res) => {
     if (!updateCategoryData) {
       return res.status(500).json({ message: 'Cannot update category'});
     } else {
-      return res.status(200).json(updateCategoryData);
+      const updatedInfo = await Category.findByPk(req.params.id, {
+        include: [{model: Product}]
+      });
+      return res.status(200).json(updatedInfo);
     }
   } catch(err) {
     return res.status(500).json(err);

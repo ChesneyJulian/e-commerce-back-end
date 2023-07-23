@@ -60,7 +60,9 @@ router.post('/', (req, res) => {
 router.put('/:id', async (req, res) => {
   try {
     // find, update, and product data
-    const product = await Product.findByPk(req.params.id);
+    const product = await Product.findByPk(req.params.id, {
+      include: [{model: Category}, {model: Tag}]
+    });
     if (!product) {
       return res.status(404).json('Product not found');
     }
@@ -70,7 +72,7 @@ router.put('/:id', async (req, res) => {
     if (req.body.tagIds) {
       await product.setTags(req.body.tagIds);
     };
-   return res.status(200).json(await product.getTags());
+   return res.status(200).json(product);
   } catch (err) {
     return res.status(500).json(err);
   };
@@ -84,7 +86,7 @@ router.delete('/:id', async (req, res) => {
         id: req.params.id
       }
     });
-    return res.status(200).json(productData);  
+    return res.status(200).json({message: 'Product deleted'});  
   } catch (err){
     return res.status(500).json(err);
   };

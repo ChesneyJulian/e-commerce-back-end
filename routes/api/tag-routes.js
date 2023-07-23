@@ -52,7 +52,11 @@ router.put('/:id', async (req, res) => {
     if (!updateTagData) {
       return res.status(500).json({message: 'No tag found to update'});
     } else {
-      return res.status(200).json(updateTagData);
+      // get data from updated tag and return in response
+      const updatedInfo = await Tag.findByPk(req.params.id, {
+        include: [{model: Product}]
+      });
+      return res.status(200).json(updatedInfo);
     };
   } catch (err) {
     return res.status(500).json(err);
