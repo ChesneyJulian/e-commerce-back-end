@@ -9,7 +9,7 @@ class Product extends Model {}
 // set up fields and rules for Product model
 Product.init(
   {
-    // define columns
+    // define columns using info from assignment
     id: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -22,6 +22,8 @@ Product.init(
     },
     price: {
       type: DataTypes.DECIMAL,
+      allowNull: false,
+      // use regex to validate if input is a decimal
       validate: {
         is: /^\d+?.?[/d0]+?/
       }

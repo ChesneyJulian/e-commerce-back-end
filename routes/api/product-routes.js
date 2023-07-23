@@ -2,6 +2,7 @@ const router = require('express').Router();
 const { Product, Category, Tag, ProductTag } = require('../../models');
 
 // The `/api/products` endpoint
+// make all route functions async and implement try catch to catch any errors
 
 // get all products
 router.get('/', async (req, res) => {
@@ -23,6 +24,7 @@ router.get('/:id', async (req, res) => {
     const singleProductData = await Product.findByPk(req.params.id, {
       include: [{model: Category}, {model: Tag}]
     });
+    // conditional to check that product is found at id
     if (!singleProductData) {
       return res.status(500).json({ message: 'No Product Found by id'});
     }
@@ -72,9 +74,9 @@ router.put('/:id', async (req, res) => {
     if (req.body.tagIds) {
       await product.setTags(req.body.tagIds);
     };
-   return res.status(200).json(product);
+      return res.status(200).json(product);
   } catch (err) {
-    return res.status(500).json(err);
+      return res.status(500).json(err);
   };
 });
 
